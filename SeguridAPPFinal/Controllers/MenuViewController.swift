@@ -131,12 +131,11 @@ class MenuViewController: UIViewController, MenuControllerDelegate, WebSocketDel
         }
         AF.request(urlpresencias, method: .get, headers: headers).responseJSON(){
             response in
-           
             switch response.result{
                 case .success(let value):
-                    print(value)
-                    guard let  json = value as? JSON else {return}
-                    print(json)
+                    guard let jsonArray = value as? [String:Any] else {return}
+                    guard let data = jsonArray["data"] as? String else {return}
+                    self.consP.text = data
                 case .failure(let error):
                     print(error)
             }
